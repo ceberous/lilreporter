@@ -6,7 +6,6 @@ function POST ( wClient , wMessage , wChannel ) {
 			console.log( "discord.js --> post()" );
 			if ( !wClient.connection ) { resolve( "discord not connected" ); return; }
 			wChannel = wChannel || wClient.default_channel;
-			console.log( wChannel );
 			await wClient.connection.createMessage( wChannel , wMessage );
 			resolve();
 		}
