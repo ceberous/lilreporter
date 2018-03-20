@@ -3,13 +3,13 @@ module.exports = {
 	slack : {
 		token : "" ,
 		default_channel : "" ,
-		default_error_channel : ""
+		default_error_channel : undefined
 	} ,
 
 	discord : {
 		token : "" ,
 		default_channel : "" ,
-		default_error_channel : ""
+		default_error_channel : undefined
 	} ,
 	
 	twitter : {

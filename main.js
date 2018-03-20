@@ -51,11 +51,14 @@ function POST( wMessage ) {
 }
 
 function POST_ERROR( wMessage ) {
+	const clients = this.clients;
 	return new Promise( async function( resolve , reject ) {
 		try {
-			for ( var xClient in clients ) {
-				try { await clients[ xClient ][ "client" ].postError( wMessage ); }
-				catch( e ) { /*console.log( e ); */ }
+			for ( var i = 0; i < clients.length; ++i ) {
+				if ( clients[ i ][ "default_error_channel" ] ) {
+					try { await clients[ i ].post( clients[ i ] ,  wMessage , clients[ i ][ "default_error_channel" ] ); }
+					catch( e ) { /*console.log( e ); */ }
+				}
 			}
 			resolve();
 		}
