@@ -8,14 +8,13 @@
   },
   "author": "",
   "license": "ISC",
-  "author": "",
   "repository": {
     "type": "git",
     "url": "https://github.com/ceberous/lilreporter"
-  },  
-  "url": "https://github.com/ceberous/lilreporter" ,  
+  },
+  "url": "https://github.com/ceberous/lilreporter",
   "dependencies": {
-    "eris": "^0.8.5",
+    "eris": "^0.8.6",
     "mastodon": "^1.2.2",
     "ntwitter": "^0.5.0",
     "path": "^0.12.7",

@@ -1,41 +1,79 @@
 const Eris = require( "eris" );
+const BaseReporter = require( "./BaseReporter.js" );
 
-function POST ( wClient , wMessage , wChannel ) {
-	return new Promise( async function( resolve , reject ) {
-		try {
-			console.log( "discord.js --> post()" );
-			if ( !wClient.connection ) { resolve( "discord not connected" ); return; }
-			wChannel = wChannel || wClient.default_channel;
-			await wClient.connection.createMessage( wChannel , wMessage );
-			resolve();
-		}
-		catch( error ) { console.log( error ); reject( error ); }
-	});
-}
-module.exports.post = POST;
+class DiscordReporter extends BaseReporter {
+	
+	constructor( wConfigOBJ ) {
+		super();
+		this.config = wConfigOBJ;
+		console.log( this.config );
+		this.client = undefined;
+	}
 
-function INIT( wClientPersonal ) {
-	return new Promise( async function( resolve , reject ) {
-		try {
-			console.log( "discord.js --> init() " );
-			if ( !wClientPersonal ) { resolve( "no token" ); return; }
-			var wOBJ = {
-				name: "discord" ,
-				token:  wClientPersonal.token ,
-				default_channel: wClientPersonal.default_channel ,
-				default_error_channel: wClientPersonal.default_error_channel ,
-				connection: null ,
-				active: false ,
-				post: POST ,
-			};
-			wOBJ[ "connection" ] = await new Eris( wClientPersonal.token );
-			await wOBJ[ "connection" ].connect();
-			wOBJ[ "connection" ].on( "ready" , () => {
-				wOBJ[ "active" ] = true;
-				resolve( wOBJ );
-			});
-		}
-		catch( error ) { console.log( error ); reject( error ); }
-	});
+	async init() {
+		let that = this;
+		return new Promise( async function( resolve , reject ) {
+			try {
+				that.client = new Eris( that.config.token );
+				await that.client.connect();
+				await that.sleep( 2000 );
+				resolve();
+			}
+			catch( error ) { console.log( error ); reject( error ); }
+		});
+	}
+
+	quit() { this.client.disconnect(); }
+
+	error( wMessage , wChannel ) {
+		let that = this;
+		return new Promise( async function( resolve , reject ) {
+			try {
+				if ( !that.client ) { resolve( "discord not connected" ); return; }
+				console.log( "discord.js --> post()" );
+				if ( !wChannel ) {
+					if ( !that.config.channels.error ) { wChannel = that.config.channels.default; }
+					else { wChannel = that.config.channels.error; }
+				}
+				else { wChannel = that.config.channels.error; }
+				await that.client.createMessage( wChannel , wMessage );
+				resolve();
+			}
+			catch( error ) { console.log( error ); reject( error ); }
+		});
+	}
+
+	log( wMessage , wChannel ) {
+		let that = this;
+		return new Promise( async function( resolve , reject ) {
+			try {
+				if ( !that.client ) { resolve( "discord not connected" ); return; }
+				console.log( "discord.js --> post()" );
+				if ( !wChannel ) {
+					if ( !that.config.channels.log ) { wChannel = that.config.channels.default; }
+					else { wChannel = that.config.channels.log; }
+				}
+				else { wChannel = that.config.channels.log; }
+				await that.client.createMessage( wChannel , wMessage );
+				resolve();
+			}
+			catch( error ) { console.log( error ); reject( error ); }
+		});
+	}
+
+	post( wMessage , wChannel ) {
+		let that = this;
+		return new Promise( async function( resolve , reject ) {
+			try {
+				if ( !that.client ) { resolve( "discord not connected" ); return; }
+				console.log( "discord.js --> post()" );
+				wChannel = wChannel || that.config.channels.default;
+				await that.client.createMessage( wChannel , wMessage );
+				resolve();
+			}
+			catch( error ) { console.log( error ); reject( error ); }
+		});
+	}
+
 }
-module.exports.init = INIT;
+module.exports = DiscordReporter;
