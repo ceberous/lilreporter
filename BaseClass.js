@@ -38,6 +38,7 @@ class LilReporterBase {
 
 	error( wMessage ) {
 		if ( !wMessage ) { console.trace(); console.log( "Blank Message" ); return; }
+		if ( typeof wMessage !== "string" ) { console.trace(); console.log( "Blank Message" ); return; }
 		if ( wMessage.length < 1 ) { console.trace(); console.log( "Blank Message" ); return; }
 		let that = this;
 		return new Promise( async function( resolve , reject ) {
@@ -54,6 +55,7 @@ class LilReporterBase {
 
 	log( wMessage ) {
 		if ( !wMessage ) { console.trace(); console.log( "Blank Message" ); return; }
+		if ( typeof wMessage !== "string" ) { console.trace(); console.log( "Blank Message" ); return; }
 		if ( wMessage.length < 1 ) { console.trace(); console.log( "Blank Message" ); return; }		
 		let that = this;
 		return new Promise( async function( resolve , reject ) {
@@ -70,6 +72,7 @@ class LilReporterBase {
 
 	post( wMessage ) {
 		if ( !wMessage ) { console.trace(); console.log( "Blank Message" ); return; }
+		if ( typeof wMessage !== "string" ) { console.trace(); console.log( "Blank Message" ); return; }
 		if ( wMessage.length < 1 ) { console.trace(); console.log( "Blank Message" ); return; }		
 		let that = this;
 		return new Promise( async function( resolve , reject ) {
