@@ -10,6 +10,7 @@ module.exports = {
 	// https://github.com/Chikachi/DiscordIntegration/wiki/How-to-get-a-token-and-channel-ID-for-Discord
 	discord : {
 		token : "" ,
+		bot_id: "" ,
 		channels: {
 			error: "channel-id" ,
 			log: "channel-id" ,
