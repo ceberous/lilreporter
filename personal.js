@@ -10,8 +10,12 @@ module.exports = {
 	// https://github.com/Chikachi/DiscordIntegration/wiki/How-to-get-a-token-and-channel-ID-for-Discord
 	discord : {
 		token : "" ,
-		default_channel : "" ,
-		default_error_channel : undefined
+		bot_id: "" ,
+		channels: {
+			error: "channel-id" ,
+			log: "channel-id" ,
+			default: "channel-id" ,
+		}
 	} ,
 	
 	// https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens
